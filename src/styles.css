@@ -1,0 +1,146 @@
+/* =========================================================
+   Reserva de Horas Médicas – Hoja de estilos
+   ========================================================= */
+
+:root {
+  --azul: #0b5c8f;
+  --azul-oscuro: #083f63;
+  --azul-claro: #e8f2f9;
+  --verde: #1f8a4c;
+  --verde-claro: #e3f4ea;
+  --info: #6b4fbb;
+  --info-claro: #efeafb;
+  --rojo: #b42318;
+  --rojo-claro: #fdecea;
+  --texto: #1f2933;
+  --texto-suave: #52606d;
+  --borde: #d5dde5;
+  --fondo: #f4f7fa;
+  --blanco: #ffffff;
+  --radio: 12px;
+  --sombra: 0 2px 10px rgba(16, 42, 67, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--texto);
+  background: var(--fondo);
+  line-height: 1.5;
+}
+
+.contenedor { width: min(1120px, 100% - 32px); margin-inline: auto; }
+
+/* ---------- Encabezado ---------- */
+.encabezado { background: var(--azul); color: var(--blanco); }
+.encabezado__fila {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 18px 0; flex-wrap: wrap;
+}
+.marca { display: flex; align-items: center; gap: 12px; }
+.marca__icono {
+  display: grid; place-items: center; width: 44px; height: 44px;
+  border-radius: 10px; background: var(--blanco); color: var(--azul);
+  font-size: 30px; font-weight: 700;
+}
+.marca__nombre { margin: 0; font-size: 1.2rem; font-weight: 700; }
+.marca__sub { margin: 0; font-size: .9rem; opacity: .85; }
+.estado-mini {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255, 255, 255, .15); padding: 6px 14px;
+  border-radius: 999px; font-size: .9rem;
+}
+
+/* ---------- Aviso de simulación ---------- */
+.aviso {
+  background: #fff7e0; border-bottom: 1px solid #f1d58a;
+  color: #6b4e00; font-size: .92rem; padding: 10px 0;
+}
+
+/* ---------- Distribución ---------- */
+.rejilla {
+  display: grid; grid-template-columns: 1.7fr 1fr;
+  gap: 24px; padding: 28px 0 40px;
+}
+.columna-lateral { display: flex; flex-direction: column; gap: 24px; }
+
+.tarjeta {
+  background: var(--blanco); border: 1px solid var(--borde);
+  border-radius: var(--radio); box-shadow: var(--sombra); padding: 24px;
+}
+.tarjeta h1 { margin: 0 0 4px; font-size: 1.6rem; color: var(--azul-oscuro); }
+.tarjeta h2 { margin: 0 0 14px; font-size: 1.15rem; color: var(--azul-oscuro); }
+.tarjeta__intro { margin: 0 0 18px; color: var(--texto-suave); }
+
+/* ---------- Formulario ---------- */
+fieldset {
+  border: 1px solid var(--borde); border-radius: 10px;
+  padding: 16px 18px 6px; margin: 0 0 18px;
+}
+legend { padding: 0 6px; font-weight: 600; color: var(--azul); }
+
+.campo { display: flex; flex-direction: column; margin-bottom: 14px; }
+.campo > label { font-weight: 600; font-size: .92rem; margin-bottom: 6px; }
+
+input[type="text"], input[type="email"], input[type="tel"],
+input[type="date"], select, textarea {
+  font: inherit; padding: 10px 12px; border: 1px solid var(--borde);
+  border-radius: 8px; background: var(--blanco); color: var(--texto);
+}
+input:focus, select:focus, textarea:focus {
+  outline: 3px solid var(--azul-claro); border-color: var(--azul);
+}
+textarea { resize: vertical; }
+
+.fila-doble { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.opciones { display: flex; gap: 18px; flex-wrap: wrap; }
+.opcion { display: inline-flex; align-items: center; gap: 8px; font-size: .95rem; }
+.opcion--check { margin: 4px 0 14px; color: var(--texto-suave); }
+
+.boton {
+  width: 100%; padding: 13px; border: 0; border-radius: 10px;
+  background: var(--azul); color: var(--blanco); font: inherit;
+  font-weight: 700; font-size: 1rem; cursor: pointer;
+  transition: background .2s ease;
+}
+.boton:hover { background: var(--azul-oscuro); }
+
+.mensaje { margin: 14px 0 0; padding: 0; border-radius: 8px; font-size: .95rem; }
+.mensaje--ok { padding: 12px 14px; background: var(--verde-claro); color: var(--verde); }
+.mensaje--error { padding: 12px 14px; background: var(--rojo-claro); color: var(--rojo); }
+
+/* ---------- Datos de atención ---------- */
+.datos { margin: 0; display: grid; gap: 12px; }
+.datos div { display: grid; gap: 2px; }
+.datos dt { font-size: .8rem; font-weight: 700; text-transform: uppercase; color: var(--texto-suave); letter-spacing: .03em; }
+.datos dd { margin: 0; }
+.datos--compacto { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--borde); grid-template-columns: 1fr 1fr; }
+
+/* ---------- Estado del servicio ---------- */
+.estado { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.estado li { display: flex; align-items: center; gap: 10px; }
+.estado .etiqueta { margin-left: auto; }
+
+.punto { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex: none; }
+.punto--ok { background: #3ccf78; box-shadow: 0 0 0 3px rgba(60, 207, 120, .25); }
+.punto--info { background: var(--info); box-shadow: 0 0 0 3px rgba(107, 79, 187, .2); }
+
+.etiqueta { font-size: .78rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+.etiqueta--ok { background: var(--verde-claro); color: var(--verde); }
+.etiqueta--info { background: var(--info-claro); color: var(--info); }
+
+/* ---------- Pie ---------- */
+.pie {
+  background: var(--azul-oscuro); color: #c9d8e4;
+  font-size: .85rem; padding: 18px 0; text-align: center;
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 860px) {
+  .rejilla { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .fila-doble, .datos--compacto { grid-template-columns: 1fr; }
+}
