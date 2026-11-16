@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Simulación de reserva de horas médicas – Proyecto DevOps">
+  <title>Reserva de Horas Médicas | Centro de Salud Integral</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="encabezado">
+    <div class="contenedor encabezado__fila">
+      <div class="marca">
+        <span class="marca__icono" aria-hidden="true">+</span>
+        <div>
+          <p class="marca__nombre">Centro de Salud Integral</p>
+          <p class="marca__sub">Reserva de horas médicas en línea</p>
+        </div>
+      </div>
+      <span class="estado-mini" id="estado-mini">
+        <span class="punto punto--ok" aria-hidden="true"></span> Servicio operativo
+      </span>
+    </div>
+  </header>
+
+  <div class="aviso">
+    <div class="contenedor">
+      <strong>Entorno de simulación:</strong> esta página es una demostración académica.
+      No envía ni almacena datos. Utiliza solo información ficticia.
+    </div>
+  </div>
+
+  <main class="contenedor rejilla">
+
+    <!-- Formulario de reserva -->
+    <section class="tarjeta tarjeta--principal" aria-labelledby="titulo-reserva">
+      <h1 id="titulo-reserva">Reserva tu hora médica</h1>
+      <p class="tarjeta__intro">Completa los datos para solicitar una hora de atención.</p>
+
+      <form id="form-reserva" class="formulario" novalidate>
+        <fieldset>
+          <legend>Datos de la atención</legend>
+          <div class="campo">
+            <label for="especialidad">Especialidad</label>
+            <select id="especialidad" name="especialidad" required>
+              <option value="">Selecciona una especialidad</option>
+              <option>Medicina general</option>
+              <option>Pediatría</option>
+              <option>Cardiología</option>
+              <option>Dermatología</option>
+              <option>Traumatología</option>
+              <option>Ginecología</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="profesional">Profesional</label>
+            <select id="profesional" name="profesional" required>
+              <option value="">Selecciona un profesional</option>
+              <option>Dra. Ana Rojas (ficticio)</option>
+              <option>Dr. Luis Soto (ficticio)</option>
+              <option>Dra. Carla Muñoz (ficticio)</option>
+            </select>
+          </div>
+          <div class="fila-doble">
+            <div class="campo">
+              <label for="fecha">Fecha</label>
+              <input type="date" id="fecha" name="fecha" required>
+            </div>
+            <div class="campo">
+              <label for="hora">Hora</label>
+              <select id="hora" name="hora" required>
+                <option value="">Selecciona</option>
+                <option>08:30</option><option>09:15</option><option>10:00</option>
+                <option>11:30</option><option>15:00</option><option>16:45</option>
+              </select>
+            </div>
+          </div>
+          <div class="campo">
+            <label>Modalidad</label>
+            <div class="opciones">
+              <label class="opcion"><input type="radio" name="modalidad" value="Presencial" checked> Presencial</label>
+              <label class="opcion"><input type="radio" name="modalidad" value="Telemedicina"> Telemedicina</label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Datos de contacto (ficticios)</legend>
+          <div class="campo">
+            <label for="nombre">Nombre del paciente</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej.: Paciente de prueba" autocomplete="off" required>
+          </div>
+          <div class="fila-doble">
+            <div class="campo">
+              <label for="correo">Correo electrónico</label>
+              <input type="email" id="correo" name="correo" placeholder="ejemplo@correo.cl" autocomplete="off" required>
+            </div>
+            <div class="campo">
+              <label for="telefono">Teléfono</label>
+              <input type="tel" id="telefono" name="telefono" placeholder="+56 9 0000 0000" autocomplete="off">
+            </div>
+          </div>
+          <div class="campo">
+            <label for="motivo">Motivo de consulta (opcional)</label>
+            <textarea id="motivo" name="motivo" rows="3" placeholder="Describe brevemente el motivo"></textarea>
+          </div>
+          <label class="opcion opcion--check">
+            <input type="checkbox" id="acepto" required>
+            Entiendo que esta es una simulación y que no se almacenarán mis datos.
+          </label>
+        </fieldset>
+
+        <button type="submit" class="boton">Solicitar hora</button>
+        <p class="mensaje" id="mensaje" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <aside class="columna-lateral">
+      <!-- Datos generales de atención -->
+      <section class="tarjeta" aria-labelledby="titulo-atencion">
+        <h2 id="titulo-atencion">Información de atención</h2>
+        <dl class="datos">
+          <div><dt>Horario</dt><dd>Lunes a viernes, 08:00 a 20:00<br>Sábado, 09:00 a 13:00</dd></div>
+          <div><dt>Dirección</dt><dd>Av. Ejemplo 1234, Santiago (ficticia)</dd></div>
+          <div><dt>Mesa de ayuda</dt><dd>+56 2 0000 0000 (ficticio)</dd></div>
+          <div><dt>Recomendación</dt><dd>Llega 15 minutos antes con tu documento de identidad.</dd></div>
+        </dl>
+      </section>
+
+      <!-- Estado del servicio -->
+      <section class="tarjeta" aria-labelledby="titulo-estado">
+        <h2 id="titulo-estado">Estado del servicio</h2>
+        <ul class="estado">
+          <li><span class="punto punto--ok" aria-hidden="true"></span> Portal web <span class="etiqueta etiqueta--ok">Operativo</span></li>
+          <li><span class="punto punto--ok" aria-hidden="true"></span> Servidor Nginx <span class="etiqueta etiqueta--ok">Activo</span></li>
+          <li><span class="punto punto--info" aria-hidden="true"></span> Reservas <span class="etiqueta etiqueta--info">Simulación</span></li>
+        </ul>
+        <dl class="datos datos--compacto">
+          <div><dt>Versión</dt><dd>v1.0.0</dd></div>
+          <div><dt>Entorno</dt><dd>Local · Docker Desktop</dd></div>
+          <div><dt>Puerto</dt><dd>8080</dd></div>
+          <div><dt>Hora del navegador</dt><dd id="reloj">--:--:--</dd></div>
+        </dl>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      Proyecto DevOps · Servicio estático con Nginx (nginx:alpine) y Docker Compose · IACC 2026
+    </div>
+  </footer>
+
+  <script>
+    // Simulación: valida el formulario y muestra una confirmación SIN enviar datos a ningún servidor.
+    (function () {
+      var form = document.getElementById('form-reserva');
+      var mensaje = document.getElementById('mensaje');
+      var fecha = document.getElementById('fecha');
+      fecha.min = new Date().toISOString().split('T')[0];
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!form.checkValidity()) {
+          mensaje.className = 'mensaje mensaje--error';
+          mensaje.textContent = 'Revisa los campos obligatorios antes de continuar.';
+          form.reportValidity();
+          return;
+        }
+        var d = new FormData(form);
+        var codigo = 'SIM-' + Math.random().toString(36).slice(2, 8).toUpperCase();
+        mensaje.className = 'mensaje mensaje--ok';
+        mensaje.textContent = 'Reserva simulada: ' + d.get('especialidad') + ' el ' + d.get('fecha') +
+          ' a las ' + d.get('hora') + ' (' + d.get('modalidad') + '). Código: ' + codigo +
+          '. Ningún dato fue enviado ni almacenado.';
+        form.reset();
+      });
+
+      function tic() { document.getElementById('reloj').textContent = new Date().toLocaleTimeString('es-CL'); }
+      tic(); setInterval(tic, 1000);
+    })();
+  </script>
+</body>
+</html>
