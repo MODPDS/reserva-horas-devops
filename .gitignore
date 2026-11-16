@@ -1,0 +1,38 @@
+# ------------------------------------------------------------
+# Archivos que NUNCA deben publicarse en el repositorio
+# ------------------------------------------------------------
+
+# Variables de entorno reales (pueden contener credenciales).
+# Solo se versiona la plantilla .env.example con valores de ejemplo.
+.env
+.env.*
+!.env.example
+
+# Claves, certificados y credenciales
+*.pem
+*.key
+*.crt
+*.p12
+secrets/
+credentials*.json
+
+# Datos y respaldos (pueden contener información personal de pacientes)
+*.sql
+*.csv
+*.bak
+data/
+backups/
+
+# Registros generados localmente
+*.log
+logs/
+
+# Archivos del sistema operativo y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Paquetes comprimidos del proyecto (se entregan aparte)
+*.zip
