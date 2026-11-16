@@ -1,0 +1,75 @@
+# Flujo complementario de automatización: valida cada cambio y deja trazabilidad en la pestaña Actions.
+# No publica la aplicación en servidores externos.
+name: DevOps automation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    name: Validar, construir y probar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener el código
+        uses: actions/checkout@v5
+
+      - name: Verificar estructura del proyecto
+        run: |
+          for f in src/index.html src/styles.css Dockerfile docker-compose.yml .gitignore .env.example README.md; do
+            if [ -f "$f" ]; then echo "OK      $f"; else echo "FALTA   $f"; exit 1; fi
+          done
+
+      - name: Revisar que no se publiquen secretos
+        run: |
+          if git ls-files | grep -E '(^|/)\.env$'; then
+            echo "ERROR: el archivo .env no debe versionarse"; exit 1
+          fi
+          grep -q '^\.env$' .gitignore && echo "OK      .env está excluido en .gitignore"
+          if git grep -nE '(ghp_[A-Za-z0-9]{36}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----)'; then
+            echo "ERROR: se detectaron posibles credenciales"; exit 1
+          fi
+          echo "OK      no se detectaron credenciales"
+
+      - name: Validar docker-compose.yml
+        run: docker compose config --quiet && echo "OK      docker-compose.yml válido"
+
+      - name: Construir la imagen
+        run: docker compose build
+
+      - name: Levantar el servicio
+        run: docker compose up -d
+
+      - name: Verificar respuesta HTTP y healthcheck
+        run: |
+          for i in $(seq 1 15); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080 || true)
+            [ "$code" = "200" ] && break
+            sleep 2
+          done
+          echo "Código HTTP: $code"
+          [ "$code" = "200" ] || exit 1
+          curl -s http://localhost:8080 | grep -q "Reserva tu hora médica" && echo "OK      contenido de la página"
+          for i in $(seq 1 30); do
+            h=$(docker inspect --format '{{.State.Health.Status}}' reserva-horas-web)
+            [ "$h" = "healthy" ] && break
+            sleep 2
+          done
+          echo "Healthcheck: $h"
+
+      - name: Evidencia de monitoreo
+        if: always()
+        run: |
+          docker compose ps
+          docker stats --no-stream
+          docker logs reserva-horas-web
+
+      - name: Detener el servicio
+        if: always()
+        run: docker compose down

@@ -1,0 +1,22 @@
+# Servicio web de reserva de horas médicas.
+# Uso: docker compose up -d --build   →   http://localhost:8080
+# Las variables se leen desde .env (no versionado); si no existe, se usan los valores por defecto.
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: reserva-horas:${APP_VERSION:-1.0.0}
+    container_name: ${CONTAINER_NAME:-reserva-horas-web}
+    ports:
+      - "${APP_PORT:-8080}:80"
+    environment:
+      - APP_ENV=${APP_ENV:-local}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
